@@ -202,7 +202,8 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
               background: isHttpUrl(cardInfo?.color)
                 ? `linear-gradient(to right,var(--card-background) 10%,var(--card-background-after)),url(${cardInfo?.color})`
                 : cardInfo?.color,
-              opacity: 0.06,
+              backgroundSize: isHttpUrl(cardInfo?.color) ? 'cover' : 'unset',
+              opacity: isHttpUrl(cardInfo?.color) ? 0.5 : 0.06,
             }}
           />
           {!isHttpUrl(cardInfo?.color) && (
