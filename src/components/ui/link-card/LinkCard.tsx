@@ -513,7 +513,10 @@ const fetchTheMovieDBData: FetchObject = {
 const fetchCommonData: FetchObject = {
   isValid: () => true,
   fetch: async (id, setCardInfo, setFullUrl) => {
-    const defaultInfo = { title: '跳转至站外', desc: id }
+    const defaultInfo = {
+      title: '跳转至站外',
+      desc: `🎮 ${decodeURIComponent(id)}`,
+    }
     const response = await fetch(
       `https://api.vinking.top/confetti/webInfo?url=${id}`,
     )
@@ -542,6 +545,7 @@ const fetchGameData: FetchObject = {
       desc: id,
       link: 'javascript:;',
       price: null,
+      free: false,
     }
     if (id) {
       const response = await fetch(
@@ -559,6 +563,7 @@ const fetchGameData: FetchObject = {
         defaultInfo.desc = responseData.genres || defaultInfo.desc
         defaultInfo.link = responseData.appUrl || defaultInfo.link
         defaultInfo.price = responseData.finalPrice || defaultInfo.price
+        defaultInfo.free = responseData.free || defaultInfo.free
       }
     }
 
@@ -567,12 +572,10 @@ const fetchGameData: FetchObject = {
         <span className="flex items-center gap-2">
           <span className="flex-1">{defaultInfo.title}</span>
           <span className="shrink-0 self-end justify-self-end">
-            {defaultInfo.price && (
+            {defaultInfo.price && defaultInfo.price !== -1 && (
               <span className="inline-flex shrink-0 items-center gap-1 self-center text-sm text-orange-400 dark:text-yellow-500">
                 <span className="font-sans font-medium">
-                  {defaultInfo.price !== -1
-                    ? `￥·${defaultInfo.price}`
-                    : `免费`}
+                  {defaultInfo.free ? `免费` : `￥ ${defaultInfo.price}`}
                 </span>
               </span>
             )}
@@ -580,6 +583,7 @@ const fetchGameData: FetchObject = {
         </span>
       ),
       desc: defaultInfo.desc,
+      color: '#5cff86',
     })
 
     setFullUrl(defaultInfo.link)
