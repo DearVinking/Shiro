@@ -1,3 +1,13 @@
+.card-background {
+  --card-background: #fafafa;
+  --card-background-after: rgba(255, 255, 255, .5);
+}
+
+.card-background:is([data-theme="dark"] *) {
+  --card-background: #222222;
+  --card-background-after: rgba(45, 45, 45, .5);
+}
+
 .card-grid {
   position: relative;
   display: flex;

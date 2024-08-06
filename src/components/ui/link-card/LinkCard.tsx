@@ -195,22 +195,26 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
       {cardInfo?.color && (
         <>
           <div
-            className="absolute inset-0 z-0"
+            className="card-background absolute inset-0 z-0"
             style={{
-              backgroundColor: cardInfo?.color,
+              background: isHttpUrl(cardInfo?.color)
+                ? `linear-gradient(to right,var(--card-background) 10%,var(--card-background-after)),url(${cardInfo?.color})`
+                : cardInfo?.color,
               opacity: 0.06,
             }}
           />
-          <m.div
-            layout
-            className="absolute inset-0 z-0 opacity-0 duration-500 group-hover:opacity-100"
-            style={
-              {
-                '--spotlight-color': `${cardInfo?.color}50`,
-                background,
-              } as any
-            }
-          />
+          {!isHttpUrl(cardInfo?.color) && (
+            <m.div
+              layout
+              className="absolute inset-0 z-0 opacity-0 duration-500 group-hover:opacity-100"
+              style={
+                {
+                  '--spotlight-color': `${cardInfo?.color}50`,
+                  background,
+                } as any
+              }
+            />
+          )}
         </>
       )}
       <span className={styles['contents']}>
@@ -532,7 +536,10 @@ const fetchCommonData: FetchObject = {
       defaultInfo.desc = responseData.desc || defaultInfo.desc
     }
 
-    setCardInfo(defaultInfo)
+    setCardInfo({
+      ...defaultInfo,
+      color: generateRandomColor(),
+    })
     setFullUrl(id)
   },
 }
@@ -583,9 +590,19 @@ const fetchGameData: FetchObject = {
         </span>
       ),
       desc: defaultInfo.desc,
-      color: '#5cff86',
     })
 
     setFullUrl(defaultInfo.link)
   },
+}
+
+const generateRandomColor: () => string = () => {
+  const randomColor = Math.floor(
+    Math.random() * (0xffffff - 0x101010) + 0x101010,
+  )
+  return `#${randomColor.toString(16).padEnd(6, '0')}`
+}
+
+const isHttpUrl = (str: string): boolean => {
+  return /^https?:\/\//i.test(str)
 }
