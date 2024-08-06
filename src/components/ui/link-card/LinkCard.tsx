@@ -546,31 +546,55 @@ const fetchCommonData: FetchObject = {
 
 const fetchGameData: FetchObject = {
   isValid: () => true,
+
   fetch: async (id, setCardInfo, setFullUrl) => {
-    const defaultInfo = {
+    const getDefaultInfo: (id: string) => {
+      title: string
+      desc: string
+      link: string
+      price: null | number
+      free: boolean
+      color: undefined | string
+    } = (id) => ({
       title: '跳转至站外',
       desc: id,
       link: 'javascript:;',
       price: null,
       free: false,
-    }
-    if (id) {
-      const response = await fetch(
-        `https://api.vinking.top/confetti/gameInfo?name=${id}`,
-      )
-        .then((r) => r.json())
-        .catch((err) => {
-          console.error('LinkCard 游戏链接解析失败:', err)
-          throw err
-        })
+      color: undefined,
+    })
 
-      if (response.stat === 200) {
-        const responseData = response.data
-        defaultInfo.title = responseData.appName || defaultInfo.title
-        defaultInfo.desc = responseData.genres || defaultInfo.desc
-        defaultInfo.link = responseData.appUrl || defaultInfo.link
-        defaultInfo.price = responseData.finalPrice || defaultInfo.price
-        defaultInfo.free = responseData.free || defaultInfo.free
+    const defaultInfo = getDefaultInfo(id)
+
+    if (id) {
+      try {
+        const response = await fetch(
+          `https://api.vinking.top/confetti/gameInfo?name=${id}`,
+        )
+        const responseData = await response.json()
+
+        if (responseData.stat === 200) {
+          const {
+            appName = defaultInfo.title,
+            genres = defaultInfo.desc,
+            appUrl = defaultInfo.link,
+            finalPrice = defaultInfo.price,
+            free = defaultInfo.free,
+            color = defaultInfo.color,
+          } = responseData.data
+
+          Object.assign(defaultInfo, {
+            title: appName,
+            desc: genres,
+            link: appUrl,
+            price: finalPrice,
+            free: free,
+            color: color,
+          })
+        }
+      } catch (error) {
+        console.error('LinkCard 游戏链接解析失败:', error)
+        throw error
       }
     }
 
@@ -590,6 +614,7 @@ const fetchGameData: FetchObject = {
         </span>
       ),
       desc: defaultInfo.desc,
+      color: defaultInfo.color,
     })
 
     setFullUrl(defaultInfo.link)
