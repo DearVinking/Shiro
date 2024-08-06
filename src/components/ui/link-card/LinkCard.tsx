@@ -89,8 +89,8 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
         [LinkCardSource.GHRepo]: fetchGitHubRepoData,
         [LinkCardSource.GHCommit]: fetchGitHubCommitData,
         [LinkCardSource.GHPr]: fetchGitHubPRData,
-        [LinkCardSource.Self]: fetchMxSpaceData,
         [LinkCardSource.Game]: fetchGameData,
+        [LinkCardSource.Self]: fetchMxSpaceData,
         [LinkCardSource.Common]: fetchCommonData,
       } as Record<LinkCardSource, FetchObject>
       if (tmdbEnabled)

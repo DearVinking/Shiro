@@ -123,8 +123,8 @@ export const isGameUrl = (url: URL) => {
   return url.href.includes('game.com')
 }
 
-export const isUrl = () => {
-  return true
+export const isUrl = (url: URL) => {
+  return !url.href.includes('game.com')
 }
 
 export const parseSelfArticleUrl = (url: URL) => {
