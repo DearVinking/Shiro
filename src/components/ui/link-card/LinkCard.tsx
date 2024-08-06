@@ -197,7 +197,7 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
       {cardInfo?.color && (
         <>
           <div
-            className="card-background absolute inset-0 z-0"
+            className={`${clsxm(styles['card-background'], className)} absolute inset-0 z-0`}
             style={{
               background: isHttpUrl(cardInfo?.color)
                 ? `linear-gradient(to right,var(--card-background) 10%,var(--card-background-after)),url(${cardInfo?.color})`
