@@ -174,7 +174,9 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
   return (
     <LinkComponent
       href={fullUrl}
-      target={source !== 'self' ? '_blank' : '_self'}
+      target={
+        source !== 'self' && fullUrl !== 'javascript:;' ? '_blank' : '_self'
+      }
       className={clsxm(
         styles['card-grid'],
         (loading || isError) && styles['skeleton'],
@@ -572,7 +574,7 @@ const fetchGameData: FetchObject = {
         defaultInfo.link = responseData.appUrl || defaultInfo.link
         defaultInfo.price = responseData.finalPrice || defaultInfo.price
         defaultInfo.free = responseData.free || defaultInfo.free
-        defaultInfo.color = responseData.color || defaultInfo.color
+        defaultInfo.color = responseData.appPic || defaultInfo.color
       }
     }
 
@@ -581,10 +583,14 @@ const fetchGameData: FetchObject = {
         <span className="flex items-center gap-2">
           <span className="flex-1">{defaultInfo.title}</span>
           <span className="shrink-0 self-end justify-self-end">
-            {defaultInfo.price && defaultInfo.price !== -1 && (
+            {defaultInfo.price && (
               <span className="inline-flex shrink-0 items-center gap-1 self-center text-sm text-orange-400 dark:text-yellow-500">
                 <span className="font-sans font-medium">
-                  {defaultInfo.free ? `免费` : `￥ ${defaultInfo.price}`}
+                  {defaultInfo.free
+                    ? `免费`
+                    : defaultInfo.price !== -1
+                      ? `￥ ${defaultInfo.price}`
+                      : `暂无价格`}
                 </span>
               </span>
             )}
