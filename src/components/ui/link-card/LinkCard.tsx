@@ -519,7 +519,7 @@ const fetchCommonData: FetchObject = {
   fetch: async (id, setCardInfo, setFullUrl) => {
     const defaultInfo = {
       title: '跳转至站外',
-      desc: `🎮 ${decodeURIComponent(id)}`,
+      desc: id,
     }
     const response = await fetch(
       `https://api.vinking.top/confetti/webInfo?url=${id}`,
@@ -549,7 +549,7 @@ const fetchGameData: FetchObject = {
   fetch: async (id, setCardInfo, setFullUrl) => {
     const defaultInfo = {
       title: '跳转至站外',
-      desc: id,
+      desc: `🎮 ${decodeURIComponent(id)}`,
       link: 'javascript:;',
       price: null,
       free: false,
