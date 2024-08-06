@@ -120,7 +120,7 @@ export const isEditorUrl = (url: URL) => {
 }
 
 export const isGameUrl = (url: URL) => {
-  return url.href.includes('Game://')
+  return url.href.includes('game.com')
 }
 
 export const isUrl = () => {
@@ -209,5 +209,13 @@ export const parseBilibiliVideoUrl = (url: URL) => {
   return {
     type,
     id,
+  }
+}
+
+export const parseGameUrl = (url: URL) => {
+  // https://game.com/name
+  const [_, name] = url.pathname.split('/')
+  return {
+    name,
   }
 }

@@ -537,13 +537,15 @@ const fetchCommonData: FetchObject = {
 const fetchGameData: FetchObject = {
   isValid: () => true,
   fetch: async (id, setCardInfo, setFullUrl) => {
-    const defaultInfo = { title: '跳转至站外', desc: id, link: id, price: null }
-    const regex = /^Game:\/\/(.*)/
-    const url = new URL(id)
-    const match = url.href.match(regex)
-    if (match) {
+    const defaultInfo = {
+      title: '跳转至站外',
+      desc: id,
+      link: 'javascript:;',
+      price: null,
+    }
+    if (id) {
       const response = await fetch(
-        `https://api.vinking.top/confetti/gameInfo?name=${match[1]}`,
+        `https://api.vinking.top/confetti/gameInfo?name=${id}`,
       )
         .then((r) => r.json())
         .catch((err) => {

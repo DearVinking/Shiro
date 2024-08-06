@@ -22,6 +22,7 @@ import {
   isUrl,
   isYoutubeUrl,
   parseBilibiliVideoUrl,
+  parseGameUrl,
   parseGithubGistUrl,
   parseGithubPrUrl,
   parseGithubTypedUrl,
@@ -167,10 +168,11 @@ export const BlockLinkRenderer = ({
       )
     }
     case isGameUrl(url): {
+      const { name } = parseGameUrl(url)
       return (
         <LinkCard
           fallbackUrl={url.toString()}
-          id={url.toString()}
+          id={name}
           source={LinkCardSource.Game}
         />
       )
