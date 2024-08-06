@@ -181,7 +181,7 @@ export const BlockLinkRenderer = ({
 
 const FixedRatioContainer = ({
   children,
-  ratio = 58,
+  ratio = 75,
 }: {
   ratio?: number
   children: React.ReactNode
