@@ -567,10 +567,12 @@ const fetchGameData: FetchObject = {
         <span className="flex items-center gap-2">
           <span className="flex-1">{defaultInfo.title}</span>
           <span className="shrink-0 self-end justify-self-end">
-            {defaultInfo.price !== 0 && defaultInfo.price && (
+            {defaultInfo.price && (
               <span className="inline-flex shrink-0 items-center gap-1 self-center text-sm text-orange-400 dark:text-yellow-500">
                 <span className="font-sans font-medium">
-                  {`￥·${defaultInfo.price}`}
+                  {defaultInfo.price !== -1
+                    ? `￥·${defaultInfo.price}`
+                    : `免费`}
                 </span>
               </span>
             )}

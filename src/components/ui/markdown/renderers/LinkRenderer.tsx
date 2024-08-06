@@ -177,7 +177,7 @@ export const BlockLinkRenderer = ({
         />
       )
     }
-    case isUrl(): {
+    case isUrl(url): {
       return (
         <LinkCard
           fallbackUrl={url.toString()}
