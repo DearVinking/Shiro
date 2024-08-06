@@ -90,6 +90,7 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
         [LinkCardSource.GHCommit]: fetchGitHubCommitData,
         [LinkCardSource.GHPr]: fetchGitHubPRData,
         [LinkCardSource.Self]: fetchMxSpaceData,
+        [LinkCardSource.Common]: fetchCommonData,
       } as Record<LinkCardSource, FetchObject>
       if (tmdbEnabled)
         fetchDataFunctions[LinkCardSource.TMDB] = fetchTheMovieDBData
@@ -505,5 +506,29 @@ const fetchTheMovieDBData: FetchObject = {
       },
     })
     json.homepage && setFullUrl(json.homepage)
+  },
+}
+
+const fetchCommonData: FetchObject = {
+  isValid: () => true,
+  fetch: async (id, setCardInfo, setFullUrl) => {
+    const defaultInfo = { title: '跳转至站外', desc: id }
+    const response = await fetch(
+      `https://api.vinking.top/confetti/webInfo?url=${id}`,
+    )
+      .then((r) => r.json())
+      .catch((err) => {
+        console.error('LinkCard 普通链接解析失败:', err)
+        throw err
+      })
+
+    if (response.stat === 200) {
+      const responseData = response.data
+      defaultInfo.title = responseData.title || defaultInfo.title
+      defaultInfo.desc = responseData.desc || defaultInfo.desc
+    }
+
+    setCardInfo(defaultInfo)
+    setFullUrl(id)
   },
 }

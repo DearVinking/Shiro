@@ -7,4 +7,5 @@ export enum LinkCardSource {
   GHCommit = 'gh-commit',
   GHPr = 'gh-pr',
   TMDB = 'tmdb',
+  Common = 'common',
 }

@@ -115,6 +115,14 @@ export const isMozillaUrl = (url: URL) => {
   return url.hostname.includes('mozilla.org')
 }
 
+export const isEditorUrl = (url: URL) => {
+  return url.hostname.includes('code.vinking.top')
+}
+
+export const isUrl = () => {
+  return true
+}
+
 export const parseSelfArticleUrl = (url: URL) => {
   const [_, type, ...rest] = url.pathname.split('/')
   switch (type) {

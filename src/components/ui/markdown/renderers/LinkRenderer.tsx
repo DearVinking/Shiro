@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
+import type React from 'react'
 import type { FC, PropsWithChildren, ReactNode } from 'react'
 
 import { GitHubBrandIcon } from '~/components/icons/platform/GitHubBrandIcon'
@@ -7,6 +8,7 @@ import {
   getTweetId,
   isBilibiliVideoUrl,
   isCodesandboxUrl,
+  isEditorUrl,
   isGistUrl,
   isGithubCommitUrl,
   isGithubFilePreviewUrl,
@@ -16,6 +18,7 @@ import {
   isSelfArticleUrl,
   isTMDBUrl,
   isTweetUrl,
+  isUrl,
   isYoutubeUrl,
   parseBilibiliVideoUrl,
   parseGithubGistUrl,
@@ -146,7 +149,33 @@ export const BlockLinkRenderer = ({
         </div>
       )
     }
+    case isEditorUrl(url): {
+      return (
+        <div className="w-[640px] max-w-full">
+          <FixedRatioContainer>
+            <iframe
+              src={`${url}`}
+              scrolling="no"
+              frameBorder="no"
+              className="absolute inset-0 size-full rounded-md border-0"
+              allowFullScreen
+            />
+          </FixedRatioContainer>
+        </div>
+      )
+    }
+
+    case isUrl(): {
+      return (
+        <LinkCard
+          fallbackUrl={url.toString()}
+          id={url.toString()}
+          source={LinkCardSource.Common}
+        />
+      )
+    }
   }
+
   return fallbackElement
 }
 
