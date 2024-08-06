@@ -90,6 +90,7 @@ const LinkCardImpl: FC<LinkCardProps> = (props) => {
         [LinkCardSource.GHCommit]: fetchGitHubCommitData,
         [LinkCardSource.GHPr]: fetchGitHubPRData,
         [LinkCardSource.Self]: fetchMxSpaceData,
+        [LinkCardSource.Game]: fetchGameData,
         [LinkCardSource.Common]: fetchCommonData,
       } as Record<LinkCardSource, FetchObject>
       if (tmdbEnabled)
@@ -530,5 +531,53 @@ const fetchCommonData: FetchObject = {
 
     setCardInfo(defaultInfo)
     setFullUrl(id)
+  },
+}
+
+const fetchGameData: FetchObject = {
+  isValid: () => true,
+  fetch: async (id, setCardInfo, setFullUrl) => {
+    const defaultInfo = { title: '跳转至站外', desc: id, link: id, price: null }
+    const regex = /^Game:\/\/(.*)/
+    const url = new URL(id)
+    const match = url.href.match(regex)
+    if (match) {
+      const response = await fetch(
+        `https://api.vinking.top/confetti/gameInfo?name=${match[1]}`,
+      )
+        .then((r) => r.json())
+        .catch((err) => {
+          console.error('LinkCard 游戏链接解析失败:', err)
+          throw err
+        })
+
+      if (response.stat === 200) {
+        const responseData = response.data
+        defaultInfo.title = responseData.appName || defaultInfo.title
+        defaultInfo.desc = responseData.genres || defaultInfo.desc
+        defaultInfo.link = responseData.appUrl || defaultInfo.link
+        defaultInfo.price = responseData.finalPrice || defaultInfo.price
+      }
+    }
+
+    setCardInfo({
+      title: (
+        <span className="flex items-center gap-2">
+          <span className="flex-1">{defaultInfo.title}</span>
+          <span className="shrink-0 self-end justify-self-end">
+            {defaultInfo.price !== 0 && defaultInfo.price && (
+              <span className="inline-flex shrink-0 items-center gap-1 self-center text-sm text-orange-400 dark:text-yellow-500">
+                <span className="font-sans font-medium">
+                  {`￥·${defaultInfo.price}`}
+                </span>
+              </span>
+            )}
+          </span>
+        </span>
+      ),
+      desc: defaultInfo.desc,
+    })
+
+    setFullUrl(defaultInfo.link)
   },
 }

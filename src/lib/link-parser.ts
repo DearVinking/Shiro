@@ -119,6 +119,10 @@ export const isEditorUrl = (url: URL) => {
   return url.hostname.includes('code.vinking.top')
 }
 
+export const isGameUrl = (url: URL) => {
+  return url.href.includes('Game://')
+}
+
 export const isUrl = () => {
   return true
 }

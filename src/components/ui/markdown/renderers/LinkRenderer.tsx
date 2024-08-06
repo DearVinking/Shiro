@@ -9,6 +9,7 @@ import {
   isBilibiliVideoUrl,
   isCodesandboxUrl,
   isEditorUrl,
+  isGameUrl,
   isGistUrl,
   isGithubCommitUrl,
   isGithubFilePreviewUrl,
@@ -136,7 +137,7 @@ export const BlockLinkRenderer = ({
       const { id } = parseBilibiliVideoUrl(url)
 
       return (
-        <div className="w-[640px] max-w-full">
+        <div className="my-4 w-full">
           <FixedRatioContainer>
             <iframe
               src={`//player.bilibili.com/player.html?bvid=${id}`}
@@ -149,6 +150,7 @@ export const BlockLinkRenderer = ({
         </div>
       )
     }
+
     case isEditorUrl(url): {
       return (
         <div className="w-[640px] max-w-full">
@@ -164,7 +166,15 @@ export const BlockLinkRenderer = ({
         </div>
       )
     }
-
+    case isGameUrl(url): {
+      return (
+        <LinkCard
+          fallbackUrl={url.toString()}
+          id={url.toString()}
+          source={LinkCardSource.Game}
+        />
+      )
+    }
     case isUrl(): {
       return (
         <LinkCard
