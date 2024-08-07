@@ -154,7 +154,7 @@ export const BlockLinkRenderer = ({
 
     case isEditorUrl(url): {
       return (
-        <div className="w-[640px] max-w-full">
+        <div className="max-w-full">
           <FixedRatioContainer>
             <iframe
               src={`${url}`}
