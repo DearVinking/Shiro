@@ -541,7 +541,7 @@ const fetchCommonData: FetchObject = {
 
     setCardInfo({
       ...defaultInfo,
-      color: generateRandomColor(),
+      color: `https://s0.wp.com/mshots/v1/${id}?w=718&h=115`,
     })
     setFullUrl(id)
   },
