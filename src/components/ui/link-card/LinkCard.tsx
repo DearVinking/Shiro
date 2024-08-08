@@ -606,13 +606,6 @@ const fetchGameData: FetchObject = {
   },
 }
 
-const generateRandomColor: () => string = () => {
-  const randomColor = Math.floor(
-    Math.random() * (0xffffff - 0x101010) + 0x101010,
-  )
-  return `#${randomColor.toString(16).padEnd(6, '0')}`
-}
-
 const isHttpUrl = (str: string): boolean => {
   return /^https?:\/\//i.test(str)
 }
