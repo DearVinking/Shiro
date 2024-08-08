@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 
 import 'dayjs/locale/zh-cn'
 
-import { useEffect, useState } from 'react'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import LocalizedFormat from 'dayjs/plugin/localizedFormat'
 
@@ -26,13 +25,7 @@ export enum DateFormat {
 export const parseDate = (
   time: string | Date,
   format: keyof typeof DateFormat,
-) => {
-  const [date, setDate] = useState(dayjs(time || new Date()))
-  useEffect(() => {
-    setDate(dayjs(time || new Date()))
-  }, [time])
-  return date.format(format)
-}
+) => dayjs(time).format(format)
 
 export const relativeTimeFromNow = (
   time: Date | string,
