@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
-import type React from 'react'
 import type { FC, PropsWithChildren, ReactNode } from 'react'
+import type React from 'react'
 
 import { GitHubBrandIcon } from '~/components/icons/platform/GitHubBrandIcon'
 import {
