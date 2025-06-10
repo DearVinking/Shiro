@@ -76,7 +76,7 @@ export async function GET() {
     site_url: url,
     feed_url: `${url}/feed`,
     language: 'zh-CN',
-    image_url: `${url}${agg?.theme?.config?.site?.favicon}`,
+    image_url: `https://cdn.vinking.top/avatar.webp`,
     generator: 'Shiro (https://github.com/Innei/Shiro)',
     pubDate: now.toUTCString(),
 
